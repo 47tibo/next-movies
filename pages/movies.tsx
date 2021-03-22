@@ -1,4 +1,4 @@
-import { GetStaticProps, InferGetStaticPropsType } from 'next'
+import { NextPage } from 'next'
 import { CardProps, Card } from './components/Card'
 
 type MovieExternalIds = {
@@ -29,9 +29,9 @@ const getImdbUrl = async (movieId: number): Promise<string> => {
 const getAllImdbUrls = async (movieIds: number[]) =>
   Promise.all(movieIds.map((movieId) => getImdbUrl(movieId)))
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getInitialProps = async ({ query }) => {
   const response = await fetch(
-    'https://api.themoviedb.org/3/search/movie?api_key=ea19850e51eedeaee6ecc4618ffbda6a&language=en-US&query=indiana&page=1&include_adult=false',
+    `https://api.themoviedb.org/3/search/movie?api_key=ea19850e51eedeaee6ecc4618ffbda6a&language=en-US&query=${query.search}&page=1&include_adult=false`,
   )
   const data = await response.json()
   const movies: MovieFromApi[] = data.results.filter(
@@ -47,15 +47,11 @@ export const getStaticProps: GetStaticProps = async () => {
     imdb_url: imdbUrls[index],
   }))
   return {
-    props: {
-      cards,
-    },
+    cards,
   }
 }
 
-const Movies: React.FC<MoviesProps> = ({
-  cards,
-}: InferGetStaticPropsType<typeof getStaticProps>) => (
+const Movies: NextPage<MoviesProps> = ({ cards }) => (
   <main className="container">
     <div className="centered is-flex is-flex-wrap-wrap">
       {cards.map((card: CardProps) => (
@@ -78,4 +74,5 @@ const Movies: React.FC<MoviesProps> = ({
     </style>
   </main>
 )
+Movies.getInitialProps = getInitialProps
 export default Movies
