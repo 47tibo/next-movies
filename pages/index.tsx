@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Search from '../components/Search'
 
 export default function Home() {
   return (
@@ -6,9 +6,7 @@ export default function Home() {
       <h1 className="title is-2">
         Bienvenue sur le moteur de recherche de films
       </h1>
-      <Link href="/movies?search=shrek">
-        <a>Recherche "shrek"</a>
-      </Link>
+      <Search />
     </>
   )
 }

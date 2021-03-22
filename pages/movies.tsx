@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import { CardProps, Card } from './components/Card'
+import { CardProps, Card } from '../components/Card'
 
 type MovieExternalIds = {
   imdb_id: string
@@ -33,6 +33,7 @@ export const getInitialProps = async ({ query }) => {
   const response = await fetch(
     `https://api.themoviedb.org/3/search/movie?api_key=ea19850e51eedeaee6ecc4618ffbda6a&language=en-US&query=${query.search}&page=1&include_adult=false`,
   )
+  // console.log(response)
   const data = await response.json()
   const movies: MovieFromApi[] = data.results.filter(
     (movie: MovieFromApi) =>
