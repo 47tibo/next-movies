@@ -1,5 +1,9 @@
 import { NextPage } from 'next'
+import { useEffect } from 'react'
+import Link from 'next/link'
 import { CardProps, Card } from '../components/Card'
+import { useSearch } from '../store/search'
+import Search from '../components/Search'
 
 type MovieExternalIds = {
   imdb_id: string
@@ -14,6 +18,7 @@ type MovieFromApi = {
 
 type MoviesProps = {
   cards: CardProps[]
+  search: string
 }
 
 const movieExternalIdsUrl =
@@ -49,31 +54,54 @@ export const getInitialProps = async ({ query }) => {
   }))
   return {
     cards,
+    search: query.search,
   }
 }
 
-const Movies: NextPage<MoviesProps> = ({ cards }) => (
-  <main className="container">
-    <div className="centered is-flex is-flex-wrap-wrap">
-      {cards.map((card: CardProps) => (
-        <Card
-          key={card.imdb_url}
-          imdb_url={card.imdb_url}
-          title={card.title}
-          release_date={card.release_date}
-          poster_url={card.poster_url}
-        />
-      ))}
-    </div>
-    <style jsx>
-      {`
-        .centered {
-          max-width: 5o%;
-          margin: 0 auto;
-        }
-      `}
-    </style>
-  </main>
-)
+const Movies: NextPage<MoviesProps> = ({ cards, search }) => {
+  const { state, setSearch } = useSearch()
+  useEffect(() => setSearch(search), [])
+
+  return (
+    <main className="container">
+      <div className="centered my my-6">
+        <nav className="level">
+          <div className="level-left">
+            <Search onSearch={setSearch} search={state.search} />
+          </div>
+          <div className="level-right">
+            <Link href="/">
+              <a>Retour à l'accueil</a>
+            </Link>
+          </div>
+        </nav>
+      </div>
+      <div className="centered is-flex is-flex-wrap-wrap">
+        {cards.length ? (
+          cards.map((card: CardProps) => (
+            <Card
+              key={card.poster_url}
+              imdb_url={card.imdb_url}
+              title={card.title}
+              release_date={card.release_date}
+              poster_url={card.poster_url}
+            />
+          ))
+        ) : (
+          <p>:( pas de résultat pour cette recherche</p>
+        )}
+      </div>
+      <style jsx>
+        {`
+          .centered {
+            max-width: 5o%;
+            margin: 0 auto;
+          }
+        `}
+      </style>
+    </main>
+  )
+}
+
 Movies.getInitialProps = getInitialProps
 export default Movies

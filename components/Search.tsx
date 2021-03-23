@@ -1,21 +1,16 @@
-import { useState, ChangeEvent, SyntheticEvent } from 'react'
-import { useRouter } from 'next/router'
+import { SyntheticEvent, useRef } from 'react'
 
-const Search: React.FC = () => {
-  const router = useRouter()
-  const [search, setSearch] = useState<string>('')
+type SearchProps = {
+  search: string
+  onSearch: (search: string) => void
+}
+
+const Search: React.FC<SearchProps> = ({ search, onSearch }) => {
+  const textInput = useRef(null)
 
   const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault()
-    router.push({
-      pathname: '/movies',
-      query: {
-        search,
-      },
-    })
-  }
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value)
+    onSearch(textInput.current.value)
   }
   return (
     <form onSubmit={onSubmit} className="field has-addons">
@@ -24,8 +19,8 @@ const Search: React.FC = () => {
           className="input is-rounded"
           type="text"
           placeholder="exemple 'Speed'"
-          value={search}
-          onChange={onChange}
+          defaultValue={search}
+          ref={textInput}
         />
       </div>
       <div className="control">
