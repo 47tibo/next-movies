@@ -1,3 +1,5 @@
+import React from 'react'
+
 export type CardProps = {
   title: string
   release_date: string
@@ -27,7 +29,7 @@ export const Card: React.FC<CardProps> = ({
         Page Imdb
       </a>
       <br />
-      <time>{release_date}</time>
+      <time data-testid="releaseDate">{release_date}</time>
     </div>
     <style jsx>
       {`

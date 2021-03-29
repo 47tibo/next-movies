@@ -1,9 +1,9 @@
+import React, { useEffect } from 'react'
 import { NextPage } from 'next'
-import { useEffect } from 'react'
 import Link from 'next/link'
-import { CardProps, Card } from '../components/Card'
+import { CardProps, Card } from '../components/Card/Card'
 import { useSearch } from '../store/search'
-import Search from '../components/Search'
+import Search from '../components/Search/Search'
 
 type MovieExternalIds = {
   imdb_id: string

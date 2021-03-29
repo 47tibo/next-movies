@@ -1,4 +1,4 @@
-import { SyntheticEvent, useRef } from 'react'
+import React, { SyntheticEvent, useRef } from 'react'
 
 type SearchProps = {
   search: string
@@ -21,12 +21,14 @@ const Search: React.FC<SearchProps> = ({ search, onSearch }) => {
           placeholder="exemple 'Speed'"
           defaultValue={search}
           ref={textInput}
+          data-testid="search-input"
         />
       </div>
       <div className="control">
         <button
           className="button is-primary is-rounded"
           type="submit"
+          data-testid="search-button"
         >
           Recherche
         </button>

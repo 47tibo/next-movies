@@ -1,4 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import React from 'react'
+
 import { SearchProvider } from '../store/search'
 import '../styles/globals.css'
 

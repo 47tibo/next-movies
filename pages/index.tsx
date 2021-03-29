@@ -1,4 +1,5 @@
-import Search from '../components/Search'
+import React from 'react'
+import Search from '../components/Search/Search'
 import { useSearch } from '../store/search'
 
 export default function Home() {

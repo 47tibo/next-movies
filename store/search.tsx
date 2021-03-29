@@ -1,10 +1,11 @@
-import {
+import React, {
   createContext,
   ReactNode,
   useReducer,
   useContext,
   useEffect,
 } from 'react'
+
 import { useRouter } from 'next/router'
 
 type State = { search: string }
